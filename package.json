@@ -1,0 +1,30 @@
+{
+    "name": "task-scheduler",
+    "version": "1.0.0",
+    "description": "A local desktop task scheduler with Windows notifications",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "package": "electron-builder"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "electron-store": "^8.1.0",
+        "node-notifier": "^10.0.1",
+        "task-scheduler": "file:",
+        "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+        "electron": "^25.0.0",
+        "electron-builder": "^24.0.0"
+    },
+    "build": {
+        "appId": "com.yourname.taskscheduler",
+        "productName": "Task Scheduler",
+        "win": {
+            "target": "nsis",
+            "icon": "icon.ico"
+        }
+    }
+}
