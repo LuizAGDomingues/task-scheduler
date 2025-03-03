@@ -1,0 +1,41 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build output
+dist/
+out/
+build/
+
+dll/
+*.tsbuildinfo
+
+# Electron-specific
+/.webpack/
+/.cache/
+/electron/dist/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Compiled files
+*.asar
+*.map
+
+# Package managers lock files
+yarn.lock
+package-lock.json
+
+# Temporary files
+/tmp/
+*.bak
+*.swp

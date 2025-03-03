@@ -1,0 +1,501 @@
+:root {
+    --primary-color: #4a6fc9;
+    --secondary-color: #6c7eff;
+    --text-color: #333333;
+    --background-color: #f5f7fa;
+    --card-background: #ffffff;
+    --border-color: #e0e0e0;
+    --completed-color: #8ba6c7;
+    --delete-color: #e74c3c;
+    --success-color: #2ecc71;
+  }
+  
+  /* Dark Theme Variables */
+  [data-theme="dark"] {
+    --primary-color: #6c7eff;
+    --secondary-color: #4a6fc9;
+    --text-color: #f5f7fa;
+    --background-color: #1e2433;
+    --card-background: #2d3748;
+    --border-color: #4a5568;
+    --completed-color: #6b7c9c;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+  
+  h1 {
+    color: var(--primary-color);
+    font-size: 28px;
+  }
+  
+  /* Theme Toggle Switch */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 28px;
+    margin-right: 10px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: var(--primary-color);
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(32px);
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  
+  /* Task Controls */
+  .task-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .filter-controls {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .filter-btn {
+    padding: 8px 15px;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+  }
+  
+  .action-btn {
+    padding: 10px 18px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  
+  .action-btn:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  /* Tasks List */
+  .tasks-list {
+    list-style-type: none;
+  }
+  
+  .task-item {
+    background-color: var(--card-background);
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .task-info {
+    flex: 1;
+  }
+  
+  .task-title {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+  }
+  
+  .task-checkbox {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  .task-title.completed {
+    text-decoration: line-through;
+    color: var(--completed-color);
+  }
+  
+  .task-datetime {
+    font-size: 14px;
+    color: var(--completed-color);
+  }
+  
+  /* Estilos para o cronômetro */
+  .task-timer-container {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .task-timer-display {
+    font-family: monospace;
+    font-size: 14px;
+    color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  
+  .task-timer {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    color: var(--primary-color);
+    transition: all 0.2s;
+  }
+  
+  .task-timer.active {
+    color: var(--delete-color);
+  }
+  
+  .task-timer:hover:not([disabled]) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Estilos para botões desativados */
+  button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .task-recurring {
+    margin-left: 10px;
+    font-size: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+  }
+  
+  .task-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .task-edit, .task-delete, .task-history, .task-timer {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  
+  .task-edit, .task-history {
+    color: var(--primary-color);
+  }
+  
+  .task-delete {
+    color: var(--delete-color);
+  }
+  
+  .task-edit:hover, .task-delete:hover, .task-history:hover, .task-timer:hover:not([disabled]) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Animação de piscar para o botão do cronômetro ativo */
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+  
+  .task-timer.active {
+    color: var(--delete-color);
+    animation: blink 1s infinite;
+  }
+  
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: var(--card-background);
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 500px;
+    animation: slideIn 0.3s ease;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .close {
+    color: var(--text-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  input[type="text"], input[type="date"], input[type="time"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--card-background);
+    color: var(--text-color);
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .cancel-btn {
+    padding: 10px 15px;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .save-btn {
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .save-btn:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--completed-color);
+  }
+  
+  /* Responsive */
+  @media (max-width: 650px) {
+    .task-controls {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .filter-controls {
+      width: 100%;
+      justify-content: space-between;
+    }
+    
+    #addTaskBtn {
+      width: 100%;
+    }
+    
+    .task-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .task-actions {
+      margin-top: 10px;
+      align-self: flex-end;
+    }
+  }
+
+  /* Add this to styles.css */
+
+.logs-container {
+  margin-top: 30px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.logs-controls {
+  margin-bottom: 15px;
+}
+
+.logs-content {
+  display: none;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logs-list {
+  list-style-type: none;
+}
+
+.log-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+}
+
+.log-item:last-child {
+  border-bottom: none;
+}
+
+.log-timestamp {
+  color: var(--completed-color);
+  margin-right: 10px;
+  font-size: 12px;
+}
+
+.log-action {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.log-action.create {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.log-action.update {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.log-action.delete {
+  background-color: var(--delete-color);
+  color: white;
+}
+
+.log-action.complete {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.log-action.uncomplete {
+  background-color: var(--completed-color);
+  color: white;
+}
+
+.log-details {
+  color: var(--text-color);
+}

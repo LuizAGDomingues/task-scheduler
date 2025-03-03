@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Scheduler</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Task Scheduler</h1>
+      <div class="theme-toggle">
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider round"></span>
+        </label>
+        <span id="themeLabel">Dark Mode</span>
+      </div>
+    </header>
+
+    <div class="task-controls">
+      <div class="filter-controls">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="pending">Pending</button>
+        <button class="filter-btn" data-filter="completed">Completed</button>
+      </div>
+      <button id="addTaskBtn" class="action-btn">Add New Task</button>
+    </div>
+
+    <div class="tasks-container">
+      <ul id="tasksList" class="tasks-list">
+        <!-- Tasks will be added here dynamically -->
+      </ul>
+    </div>
+
+    <!-- Add/Edit Task Modal -->
+    <div id="taskModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Add New Task</h2>
+        
+        <form id="taskForm">
+          <input type="hidden" id="taskId">
+          
+          <div class="form-group">
+            <label for="taskTitle">Task Title:</label>
+            <input type="text" id="taskTitle" placeholder="Enter task title" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="scheduledDate">Date:</label>
+            <input type="date" id="scheduledDate" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="scheduledTime">Time:</label>
+            <input type="time" id="scheduledTime" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="recurring">Recurring:</label>
+            <select id="recurring">
+              <option value="">None</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="reminderTime">Reminder:</label>
+            <select id="reminderTime">
+              <option value="">None</option>
+              <option value="5">5 minutes before</option>
+              <option value="15">15 minutes before</option>
+              <option value="30">30 minutes before</option>
+              <option value="60">1 hour before</option>
+            </select>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+            <button type="submit" id="saveTaskBtn" class="save-btn">Save Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="logsContainer" class="logs-container">
+      <h2>Activity Logs</h2>
+      <div class="logs-controls">
+        <button id="toggleLogsBtn" class="action-btn">Show Logs</button>
+      </div>
+      <div id="logsContent" class="logs-content">
+        <ul id="logsList" class="logs-list">
+          <!-- Logs will be added here dynamically -->
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <script src="renderer.js"></script>
+</body>
+</html>
