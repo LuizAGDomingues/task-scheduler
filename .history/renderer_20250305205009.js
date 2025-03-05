@@ -40,7 +40,6 @@ let taskTimers = {};
 document.addEventListener('DOMContentLoaded', () => {
   loadTasks();
   initTheme();
-  initDateFilters();
 });
 
 // Salva os tempos acumulados quando o usuário fechar a página

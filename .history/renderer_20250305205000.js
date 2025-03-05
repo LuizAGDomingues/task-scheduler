@@ -40,7 +40,6 @@ let taskTimers = {};
 document.addEventListener('DOMContentLoaded', () => {
   loadTasks();
   initTheme();
-  initDateFilters();
 });
 
 // Salva os tempos acumulados quando o usuário fechar a página
@@ -98,15 +97,6 @@ async function loadTasks() {
       filteredTasks = tasks.filter(task => !task.completed);
     } else if (currentFilter === 'completed') {
       filteredTasks = tasks.filter(task => task.completed);
-    }
-    
-    // Aplica o filtro de data, se estiver ativo
-    if (dateFilterActive && startDateTime && endDateTime) {
-      filteredTasks = filteredTasks.filter(task => {
-        const taskDate = new Date(task.scheduledTime);
-        // Verifica se a data/hora da tarefa está dentro do intervalo selecionado
-        return taskDate >= startDateTime && taskDate <= endDateTime;
-      });
     }
     
     // Sort tasks by date (upcoming first)

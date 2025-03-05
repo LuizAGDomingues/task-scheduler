@@ -40,7 +40,6 @@ let taskTimers = {};
 document.addEventListener('DOMContentLoaded', () => {
   loadTasks();
   initTheme();
-  initDateFilters();
 });
 
 // Salva os tempos acumulados quando o usuário fechar a página
@@ -98,15 +97,6 @@ async function loadTasks() {
       filteredTasks = tasks.filter(task => !task.completed);
     } else if (currentFilter === 'completed') {
       filteredTasks = tasks.filter(task => task.completed);
-    }
-    
-    // Aplica o filtro de data, se estiver ativo
-    if (dateFilterActive && startDateTime && endDateTime) {
-      filteredTasks = filteredTasks.filter(task => {
-        const taskDate = new Date(task.scheduledTime);
-        // Verifica se a data/hora da tarefa está dentro do intervalo selecionado
-        return taskDate >= startDateTime && taskDate <= endDateTime;
-      });
     }
     
     // Sort tasks by date (upcoming first)
@@ -645,51 +635,3 @@ async function toggleTaskTimer(taskId) {
 // Modify the addTaskToDOM function to add the history button
 // Add this line at the end of the function
 // 
-
-// Inicializa os campos de filtro de data/hora com valores padrão
-function initDateFilters() {
-  // Define a data atual como valor padrão
-  const today = new Date();
-  const formattedDate = today.toISOString().split('T')[0];
-  
-  // Configura o filtro de início para o início do dia atual
-  dateFilterStart.value = formattedDate;
-  timeFilterStart.value = '00:00';
-  
-  // Configura o filtro de fim para o final do dia atual
-  dateFilterEnd.value = formattedDate;
-  timeFilterEnd.value = '23:59';
-}
-
-// Event listeners para os filtros de data
-applyDateFilterBtn.addEventListener('click', () => {
-  // Verifica se todos os campos de data e hora estão preenchidos
-  if (dateFilterStart.value && timeFilterStart.value && 
-      dateFilterEnd.value && timeFilterEnd.value) {
-    
-    // Cria objetos Date para as datas/horas de início e fim
-    startDateTime = new Date(`${dateFilterStart.value}T${timeFilterStart.value}`);
-    endDateTime = new Date(`${dateFilterEnd.value}T${timeFilterEnd.value}`);
-    
-    // Ativa o filtro de data
-    dateFilterActive = true;
-    
-    // Recarrega as tarefas com o novo filtro
-    loadTasks();
-  } else {
-    alert('Por favor, preencha todos os campos de data e hora.');
-  }
-});
-
-clearDateFilterBtn.addEventListener('click', () => {
-  // Desativa o filtro de data
-  dateFilterActive = false;
-  startDateTime = null;
-  endDateTime = null;
-  
-  // Reinicia os valores para o padrão
-  initDateFilters();
-  
-  // Recarrega as tarefas sem o filtro de data
-  loadTasks();
-}); 
