@@ -39,6 +39,3 @@ package-lock.json
 /tmp/
 *.bak
 *.swp
-
-# Build files
-.bat
