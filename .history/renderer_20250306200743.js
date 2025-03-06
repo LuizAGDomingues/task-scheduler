@@ -444,6 +444,9 @@ async function loadLogs() {
   try {
     const logs = await window.electronAPI.getLogs();
     
+    // Sort logs by timestamp (newest first)
+    logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    
     // Take only the most recent 50 logs
     const recentLogs = logs.slice(0, 50);
     
@@ -451,7 +454,7 @@ async function loadLogs() {
     logsList.innerHTML = '';
     
     if (recentLogs.length === 0) {
-      logsList.innerHTML = '<li class="log-item">Nenhum registro de atividade ainda.</li>';
+      logsList.innerHTML = '<li class="log-item">No activity logs yet.</li>';
       return;
     }
     
@@ -460,7 +463,7 @@ async function loadLogs() {
       addLogToDOM(log);
     });
   } catch (error) {
-    console.error('Erro ao carregar logs:', error);
+    console.error('Error loading logs:', error);
   }
 }
 
@@ -475,22 +478,22 @@ function addLogToDOM(log) {
   let actionText = log.action;
   switch (log.action) {
     case 'create':
-      actionText = 'Criada';
+      actionText = 'Created';
       break;
     case 'create_recurring':
-      actionText = 'Criada (Recorrente)';
+      actionText = 'Created (Recurring)';
       break;
     case 'update':
-      actionText = 'Atualizada';
+      actionText = 'Updated';
       break;
     case 'delete':
-      actionText = 'Excluída';
+      actionText = 'Deleted';
       break;
     case 'complete':
-      actionText = 'Concluída';
+      actionText = 'Completed';
       break;
     case 'uncomplete':
-      actionText = 'Reaberta';
+      actionText = 'Reopened';
       break;
   }
   
@@ -533,7 +536,7 @@ function addTaskHistoryButton(taskItem, taskId) {
 // Show task history modal
 function showTaskHistoryModal(logs) {
   // Implementation for a modal to show task history
-  alert(`A tarefa tem ${logs.length} entradas no histórico.`);
+  alert(`A tarefa tem ${logs.length} entradas no histórico. Este recurso estará disponível em breve!`);
 }
 
 // Funções do cronômetro (timer)

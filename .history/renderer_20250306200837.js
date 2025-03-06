@@ -533,7 +533,7 @@ function addTaskHistoryButton(taskItem, taskId) {
 // Show task history modal
 function showTaskHistoryModal(logs) {
   // Implementation for a modal to show task history
-  alert(`A tarefa tem ${logs.length} entradas no histórico.`);
+  alert(`A tarefa tem ${logs.length} entradas no histórico. Este recurso estará disponível em breve!`);
 }
 
 // Funções do cronômetro (timer)

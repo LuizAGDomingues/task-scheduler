@@ -1,7 +1,7 @@
 {
-    "name": "agendador-tarefas",
+    "name": "task-scheduler",
     "version": "1.0.0",
-    "description": "Um agendador de tarefas local para desktop com notificações do Windows",
+    "description": "A local desktop task scheduler with Windows notifications",
     "main": "main.js",
     "scripts": {
         "start": "electron .",
@@ -10,9 +10,9 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "agendador-tarefas": "file:",
         "electron-store": "^8.1.0",
         "node-notifier": "^10.0.1",
+        "task-scheduler": "file:../task-scheduler",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
@@ -21,7 +21,7 @@
     },
     "build": {
         "appId": "com.yourname.taskscheduler",
-        "productName": "Agendador de Tarefas",
+        "productName": "Task Scheduler",
         "win": {
             "target": "nsis",
             "icon": "icon.ico"

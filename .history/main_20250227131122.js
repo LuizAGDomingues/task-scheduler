@@ -69,9 +69,9 @@ function scheduleNotification(task) {
 // Modify the showNotification function to handle reminders
 function showNotification(task, isReminder) {
   notifier.notify({
-    title: isReminder ? 'Lembrete de Tarefa' : 'Tarefa Agendada para Agora',
+    title: isReminder ? 'Task Reminder' : 'Task Due Now',
     message: isReminder ? 
-      `Lembrete: "${task.title}" está agendada para daqui a ${task.reminderTime} minutos` : 
+      `Reminder: "${task.title}" is due in ${task.reminderTime} minutes` : 
       task.title,
     icon: path.join(__dirname, 'icon.png'),
     sound: true,
@@ -82,7 +82,7 @@ function showNotification(task, isReminder) {
 // Show a Windows notification
 function showNotification(task) {
   notifier.notify({
-    title: 'Lembrete de Tarefa',
+    title: 'Task Reminder',
     message: task.title,
     icon: path.join(__dirname, 'icon.png'),
     sound: true,
