@@ -567,7 +567,8 @@
 }
 
 .log-action.timer_update {
-  display: none;
+  background-color: #27ae60;
+  color: white;
 }
 
 .log-action.timer_started,
@@ -658,7 +659,7 @@
 }
 
 .history-action.timer_update {
-  display: none;
+  background-color: #27ae60;
 }
 
 .history-action.timer_started,

@@ -547,7 +547,7 @@
 }
 
 .log-action.update {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   color: white;
 }
 
@@ -563,16 +563,6 @@
 
 .log-action.uncomplete {
   background-color: var(--completed-color);
-  color: white;
-}
-
-.log-action.timer_update {
-  display: none;
-}
-
-.log-action.timer_started,
-.log-action.timer_paused {
-  background-color: #2ecc71;
   color: white;
 }
 
@@ -657,13 +647,12 @@
   background-color: #f39c12;
 }
 
-.history-action.timer_update {
-  display: none;
+.history-action.timer_started {
+  background-color: #2ecc71;
 }
 
-.history-action.timer_started,
 .history-action.timer_paused {
-  background-color: #2ecc71;
+  background-color: #e67e22;
 }
 
 .history-details {

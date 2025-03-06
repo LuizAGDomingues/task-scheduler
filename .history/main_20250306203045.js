@@ -256,10 +256,7 @@ ipcMain.handle('update-task', async (event, task, updateType = 'update') => {
   }
   
   // Log the action usando o tipo específico de atualização
-  // Somente registra logs para atualizações não silenciosas
-  if (updateType !== 'silent_update') {
-    activityLogger.addLog(updateType, updatedTask);
-  }
+  activityLogger.addLog(updateType, updatedTask);
   
   return updatedTask;
 });

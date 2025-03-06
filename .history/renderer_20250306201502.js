@@ -471,11 +471,6 @@ async function loadLogs() {
 }
 
 function addLogToDOM(log) {
-  // Ignora os eventos de atualização do cronômetro para não sobrecarregar a lista de logs
-  if (log.action === 'timer_update') {
-    return;
-  }
-  
   const logItem = document.createElement('li');
   logItem.classList.add('log-item');
   
@@ -492,7 +487,7 @@ function addLogToDOM(log) {
       actionText = 'Criada (Recorrente)';
       break;
     case 'update':
-      actionText = 'Editada';
+      actionText = 'Atualizada';
       break;
     case 'delete':
       actionText = 'Excluída';
@@ -502,12 +497,6 @@ function addLogToDOM(log) {
       break;
     case 'uncomplete':
       actionText = 'Reaberta';
-      break;
-    case 'timer_started':
-      actionText = 'Cronômetro Iniciado';
-      break;
-    case 'timer_paused':
-      actionText = 'Cronômetro Pausado';
       break;
   }
   
@@ -559,9 +548,6 @@ function showTaskHistoryModal(logs, taskId) {
     taskTitle = logs[0].taskTitle;
   }
   
-  // Filtra os logs para remover as atualizações do cronômetro
-  logs = logs.filter(log => log.action !== 'timer_update');
-  
   // Atualiza o título do modal
   historyModalTitle.textContent = `Histórico da Tarefa${taskTitle ? ': ' + taskTitle : ''}`;
   
@@ -594,7 +580,7 @@ function showTaskHistoryModal(logs, taskId) {
           actionText = 'Recorrente';
           break;
         case 'update':
-          actionText = 'Editada';
+          actionText = 'Atualizada';
           break;
         case 'delete':
           actionText = 'Excluída';
@@ -615,32 +601,8 @@ function showTaskHistoryModal(logs, taskId) {
       
       // Formata detalhes adicionais se disponíveis
       let details = '';
-      
-      // Trata diferentes tipos de dados para o campo details
       if (log.details) {
-        // Evita que objetos sejam exibidos como "[object Object]"
-        if (typeof log.details === 'object' && log.details !== null) {
-          // Se tiver uma propriedade title, exibe-a
-          if (log.details.title) {
-            details = `"${log.details.title}"`;
-          } else {
-            // Caso contrário, mostra textos específicos baseados na ação
-            if (log.action === 'create' || log.action === 'create_recurring') {
-              details = `Tarefa criada${log.action === 'create_recurring' ? ' (recorrente)' : ''}`;
-            } else if (log.action === 'update') {
-              details = 'Tarefa editada';
-            } else if (log.action === 'complete') {
-              details = 'Tarefa marcada como concluída';
-            } else if (log.action === 'uncomplete') {
-              details = 'Tarefa reaberta';
-            } else if (log.action === 'delete') {
-              details = 'Tarefa removida';
-            }
-          }
-        } else {
-          // Se for uma string, usa diretamente
-          details = log.details;
-        }
+        details = log.details;
       } else if (log.action === 'timer_started') {
         details = 'Cronômetro iniciado';
       } else if (log.action === 'timer_paused') {
@@ -648,7 +610,7 @@ function showTaskHistoryModal(logs, taskId) {
       } else if (log.action === 'create' || log.action === 'create_recurring') {
         details = `Tarefa criada${log.action === 'create_recurring' ? ' (recorrente)' : ''}`;
       } else if (log.action === 'update') {
-        details = 'Tarefa editada';
+        details = 'Detalhes da tarefa atualizados';
       } else if (log.action === 'complete') {
         details = 'Tarefa marcada como concluída';
       } else if (log.action === 'uncomplete') {
@@ -689,7 +651,7 @@ window.addEventListener('click', (event) => {
 // Funções do cronômetro (timer)
 
 // Iniciar o cronômetro para uma tarefa específica
-async function startTaskTimer(taskId) {
+function startTaskTimer(taskId) {
   if (activeTimers[taskId]) {
     // O cronômetro já está ativo
     return;
@@ -721,26 +683,6 @@ async function startTaskTimer(taskId) {
     timerBtn.textContent = 'Pausar';
     timerBtn.classList.add('active');
   }
-  
-  // Registra o evento no histórico
-  try {
-    // Busca a tarefa para obter o título
-    const tasks = await window.electronAPI.getTasks();
-    const task = tasks.find(t => t.id === taskId);
-    
-    if (task) {
-      // Registra o evento no log de atividades
-      await window.electronAPI.addLog({
-        taskId: taskId,
-        taskTitle: task.title,
-        action: 'timer_started',
-        details: 'Cronômetro iniciado',
-        timestamp: new Date().toISOString()
-      });
-    }
-  } catch (error) {
-    console.error('Erro ao registrar evento de início do cronômetro:', error);
-  }
 }
 
 // Pausar o cronômetro para uma tarefa específica
@@ -763,28 +705,6 @@ async function pauseTaskTimer(taskId) {
   
   // Salva o tempo decorrido no banco de dados
   await updateTaskElapsedTime(taskId, taskTimers[taskId]);
-  
-  // Registra o evento no histórico
-  try {
-    // Busca a tarefa para obter o título
-    const tasks = await window.electronAPI.getTasks();
-    const task = tasks.find(t => t.id === taskId);
-    
-    if (task) {
-      const formattedTime = formatTime(taskTimers[taskId]);
-      // Registra o evento no log de atividades
-      await window.electronAPI.addLog({
-        taskId: taskId,
-        taskTitle: task.title,
-        action: 'timer_paused',
-        details: `Cronômetro pausado. Tempo total: ${formattedTime}`,
-        elapsedTime: taskTimers[taskId],
-        timestamp: new Date().toISOString()
-      });
-    }
-  } catch (error) {
-    console.error('Erro ao registrar evento de pausa do cronômetro:', error);
-  }
 }
 
 // Atualiza o tempo decorrido de uma tarefa no banco de dados
@@ -795,12 +715,8 @@ async function updateTaskElapsedTime(taskId, elapsedTime) {
     const task = tasks.find(t => t.id === taskId);
     
     if (task) {
-      // Atualiza o tempo decorrido
       task.elapsedTime = elapsedTime;
-      
-      // Atualiza a tarefa no banco de dados silenciosamente
-      // sem criar um registro de log para essa atualização
-      await window.electronAPI.updateTask(task, 'silent_update');
+      await window.electronAPI.updateTask(task);
     }
   } catch (error) {
     console.error('Erro ao atualizar o tempo da tarefa:', error);

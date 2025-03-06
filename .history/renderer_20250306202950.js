@@ -471,11 +471,6 @@ async function loadLogs() {
 }
 
 function addLogToDOM(log) {
-  // Ignora os eventos de atualização do cronômetro para não sobrecarregar a lista de logs
-  if (log.action === 'timer_update') {
-    return;
-  }
-  
   const logItem = document.createElement('li');
   logItem.classList.add('log-item');
   
@@ -492,7 +487,10 @@ function addLogToDOM(log) {
       actionText = 'Criada (Recorrente)';
       break;
     case 'update':
-      actionText = 'Editada';
+      actionText = 'Atualizada';
+      break;
+    case 'timer_update':
+      actionText = 'Cronômetro Atualizado';
       break;
     case 'delete':
       actionText = 'Excluída';
@@ -559,9 +557,6 @@ function showTaskHistoryModal(logs, taskId) {
     taskTitle = logs[0].taskTitle;
   }
   
-  // Filtra os logs para remover as atualizações do cronômetro
-  logs = logs.filter(log => log.action !== 'timer_update');
-  
   // Atualiza o título do modal
   historyModalTitle.textContent = `Histórico da Tarefa${taskTitle ? ': ' + taskTitle : ''}`;
   
@@ -594,7 +589,10 @@ function showTaskHistoryModal(logs, taskId) {
           actionText = 'Recorrente';
           break;
         case 'update':
-          actionText = 'Editada';
+          actionText = 'Editada Manualmente';
+          break;
+        case 'timer_update':
+          actionText = 'Cronômetro Atualizado';
           break;
         case 'delete':
           actionText = 'Excluída';
@@ -628,7 +626,9 @@ function showTaskHistoryModal(logs, taskId) {
             if (log.action === 'create' || log.action === 'create_recurring') {
               details = `Tarefa criada${log.action === 'create_recurring' ? ' (recorrente)' : ''}`;
             } else if (log.action === 'update') {
-              details = 'Tarefa editada';
+              details = 'Tarefa editada manualmente';
+            } else if (log.action === 'timer_update') {
+              details = 'Tempo atualizado pelo cronômetro';
             } else if (log.action === 'complete') {
               details = 'Tarefa marcada como concluída';
             } else if (log.action === 'uncomplete') {
@@ -648,7 +648,9 @@ function showTaskHistoryModal(logs, taskId) {
       } else if (log.action === 'create' || log.action === 'create_recurring') {
         details = `Tarefa criada${log.action === 'create_recurring' ? ' (recorrente)' : ''}`;
       } else if (log.action === 'update') {
-        details = 'Tarefa editada';
+        details = 'Tarefa editada manualmente';
+      } else if (log.action === 'timer_update') {
+        details = 'Tempo atualizado pelo cronômetro';
       } else if (log.action === 'complete') {
         details = 'Tarefa marcada como concluída';
       } else if (log.action === 'uncomplete') {
@@ -795,12 +797,23 @@ async function updateTaskElapsedTime(taskId, elapsedTime) {
     const task = tasks.find(t => t.id === taskId);
     
     if (task) {
+      // Guarda o tempo anterior para referência nos logs
+      const previousElapsedTime = task.elapsedTime || 0;
       // Atualiza o tempo decorrido
       task.elapsedTime = elapsedTime;
       
-      // Atualiza a tarefa no banco de dados silenciosamente
-      // sem criar um registro de log para essa atualização
-      await window.electronAPI.updateTask(task, 'silent_update');
+      // Atualiza a tarefa no banco de dados
+      await window.electronAPI.updateTask(task, 'timer_update');
+      
+      // Registra um evento específico para atualização do cronômetro
+      await window.electronAPI.addLog({
+        taskId: taskId,
+        taskTitle: task.title,
+        action: 'timer_update',
+        details: `Tempo atualizado: ${formatTime(previousElapsedTime)} → ${formatTime(elapsedTime)}`,
+        elapsedTime: elapsedTime,
+        timestamp: new Date().toISOString()
+      });
     }
   } catch (error) {
     console.error('Erro ao atualizar o tempo da tarefa:', error);

@@ -795,12 +795,23 @@ async function updateTaskElapsedTime(taskId, elapsedTime) {
     const task = tasks.find(t => t.id === taskId);
     
     if (task) {
+      // Guarda o tempo anterior para referência nos logs
+      const previousElapsedTime = task.elapsedTime || 0;
       // Atualiza o tempo decorrido
       task.elapsedTime = elapsedTime;
       
-      // Atualiza a tarefa no banco de dados silenciosamente
-      // sem criar um registro de log para essa atualização
-      await window.electronAPI.updateTask(task, 'silent_update');
+      // Atualiza a tarefa no banco de dados
+      await window.electronAPI.updateTask(task, 'timer_update');
+      
+      // Registra um evento específico para atualização do cronômetro
+      await window.electronAPI.addLog({
+        taskId: taskId,
+        taskTitle: task.title,
+        action: 'timer_update',
+        details: `Tempo atualizado: ${formatTime(previousElapsedTime)} → ${formatTime(elapsedTime)}`,
+        elapsedTime: elapsedTime,
+        timestamp: new Date().toISOString()
+      });
     }
   } catch (error) {
     console.error('Erro ao atualizar o tempo da tarefa:', error);
