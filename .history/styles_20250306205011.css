@@ -683,83 +683,10 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 15px;
-  gap: 15px;
 }
 
 .action-buttons {
   display: flex;
   gap: 10px;
   align-items: center;
-}
-
-/* Adiciona uma margem específica ao botão de cancelar no modal de exportação */
-#cancelExportBtn {
-  margin-right: 10px;
-}
-
-/* Estilos para o modal de exportação */
-.export-container {
-  padding: 15px 0;
-}
-
-.export-options {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin: 20px 0;
-}
-
-.export-option {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: var(--background-color);
-  border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
-}
-
-.export-option:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.export-option input[type="radio"] {
-  margin-right: 10px;
-}
-
-.export-option label {
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  font-size: 1.1rem;
-  margin-bottom: 5px;
-  cursor: pointer;
-}
-
-.export-description {
-  font-size: 0.9rem;
-  color: var(--text-color);
-  opacity: 0.8;
-  margin-top: 5px;
-  margin-left: 28px;
-}
-
-.export-summary {
-  background-color: rgba(var(--primary-color-rgb), 0.1);
-  padding: 12px 15px;
-  border-radius: 6px;
-  margin: 15px 0;
-  border-left: 3px solid var(--primary-color);
-}
-
-/* Media queries para responsividade */
-@media (max-width: 650px) {
-  .export-options {
-    gap: 10px;
-  }
-  
-  .export-option {
-    padding: 10px;
-  }
 }

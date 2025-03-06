@@ -123,47 +123,6 @@
       </div>
     </div>
 
-    <!-- Modal de Exportação de Tarefas -->
-    <div id="exportModal" class="modal">
-      <div class="modal-content">
-        <span class="close export-close">&times;</span>
-        <h2>Exportar Tarefas</h2>
-        
-        <div class="export-container">
-          <p>Selecione o formato de exportação:</p>
-          
-          <div class="export-options">
-            <div class="export-option">
-              <input type="radio" id="formatSimple" name="exportFormat" value="simple" checked>
-              <label for="formatSimple">Texto Simples</label>
-              <p class="export-description">Lista básica de tarefas com principais informações</p>
-            </div>
-            
-            <div class="export-option">
-              <input type="radio" id="formatDetailed" name="exportFormat" value="detailed">
-              <label for="formatDetailed">Texto Detalhado</label>
-              <p class="export-description">Incluindo detalhes como tempo acumulado e histórico</p>
-            </div>
-            
-            <div class="export-option">
-              <input type="radio" id="formatCSV" name="exportFormat" value="csv">
-              <label for="formatCSV">CSV</label>
-              <p class="export-description">Para importar em Excel ou outros programas</p>
-            </div>
-          </div>
-          
-          <div class="export-summary">
-            <p id="exportSummary">Os filtros atuais serão aplicados à exportação.</p>
-          </div>
-          
-          <div class="modal-footer">
-            <button type="button" id="cancelExportBtn" class="cancel-btn">Cancelar</button>
-            <button type="button" id="confirmExportBtn" class="save-btn">Exportar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div id="logsContainer" class="logs-container">
       <h2>Registros de Atividades</h2>
       <div class="logs-controls">

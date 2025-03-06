@@ -683,18 +683,12 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 15px;
-  gap: 15px;
 }
 
 .action-buttons {
   display: flex;
   gap: 10px;
   align-items: center;
-}
-
-/* Adiciona uma margem específica ao botão de cancelar no modal de exportação */
-#cancelExportBtn {
-  margin-right: 10px;
 }
 
 /* Estilos para o modal de exportação */
